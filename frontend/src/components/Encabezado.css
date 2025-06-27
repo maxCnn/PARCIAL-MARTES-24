@@ -1,0 +1,16 @@
+.usuario-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: black;
+    padding: 0.25rem 1rem;
+    border-radius: 2rem;
+    font-size: 1rem;
+    color: #f8f9fa;
+}
+
+header .nav-link.active,
+header .nav-link.active:focus {
+    background-color: #0d6efd !important;
+    color: #fff !important;
+}

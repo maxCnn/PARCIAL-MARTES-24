@@ -1,0 +1,89 @@
+### 🟢 Obtener todos los juegos
+GET http://localhost:3000/api/juegos
+
+### 🟢 Obtener detalle de un juego por ID
+GET http://localhost:3000/api/juegos/1
+
+### 🟢 Obtener últimas 10 partidas registradas
+GET http://localhost:3000/api/partidas/ultimas
+
+### 🟢 Obtener partidas filtradas por juego y fecha límite
+GET http://localhost:3000/api/partidas?idJuego=2
+
+### 🟢 Obtener partidas filtradas solo por juego
+GET http://localhost:3000/api/partidas?idJuego=1
+
+### 🟢 Obtener partidas filtradas solo por fecha límite
+GET http://localhost:3000/api/partidas?hasta=2025-06-24
+
+### 🟢 Obtener detalle de una partida por ID
+GET http://localhost:3000/api/partidas/9
+
+### 🟢 Crear una nueva partida (válido)
+POST http://localhost:3000/api/partidas
+Content-Type: application/json
+
+{
+  "idJuego": 2,
+  "fecha": "2025-25-26",
+  "jugadores": 4,
+  "ganador": "Carlos Caffaratti"
+}
+
+### 🔴 Crear una nueva partida (error: jugadores < 2)
+POST http://localhost:3000/api/partidas
+Content-Type: application/json
+
+{
+  "idJuego": 1,
+  "fecha": "2025-13-24",
+  "jugadores": 1,
+  "ganador": "Juan Pérez"
+}
+
+### 🔴 Crear una nueva partida (error: ganador vacío)
+POST http://localhost:3000/api/partidas
+Content-Type: application/json
+
+{
+  "idJuego": 1,
+  "fecha": "2025-06-24",
+  "jugadores": 3,
+  "ganador": ""
+}
+
+### 🔴 Crear una nueva partida (error: fecha inválida)
+POST http://localhost:3000/api/partidas
+Content-Type: application/json
+
+{
+  "idJuego": 1,
+  "fecha": "24-06-2025",
+  "jugadores": 3,
+  "ganador": "Juan"
+}
+
+### 🟢 Actualizar una partida existente (modifica el id según corresponda)
+PUT http://localhost:3000/api/partidas/9
+Content-Type: application/json
+
+{
+  "idJuego": 2,
+  "fecha": "2025-06-25",
+  "jugadores": 5,
+  "ganador": "Ana Caffaratti"
+}
+
+### 🔴 Actualizar una partida con error (ganador vacío)
+PUT http://localhost:3000/api/partidas/1
+Content-Type: application/json
+
+{
+  "idJuego": 2,
+  "fecha": "2025-06-25",
+  "jugadores": 5,
+  "ganador": ""
+}
+
+### 🟢 Eliminar una partida (modifica el id según corresponda)
+DELETE http://localhost:3000/api/partidas/31
