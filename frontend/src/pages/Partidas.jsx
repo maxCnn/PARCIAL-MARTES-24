@@ -11,7 +11,7 @@ const Partidas = () => {
     const [partidas, setPartidas] = useState([]);
     const [juegos, setJuegos] = useState([]);
     const [filtros, setFiltros] = useState({ idJuego: "", hasta: "" });
-    const [confirmarEliminacion, setConfirmarEliminacion] = useState(null);
+    const [partidaAEliminar, setPartidaAEliminar] = useState(null);
     const navigate = useNavigate();
 
     // Carga inicial
@@ -32,13 +32,28 @@ const Partidas = () => {
     };
 
     const onEliminar = (partida) => {
-        setConfirmarEliminacion(partida);
+        setPartidaAEliminar(partida);
     };
 
     const confirmarEliminar = async () => {
-        await partidasService.eliminar(confirmarEliminacion.id);
-        setConfirmarEliminacion(null);
-        buscarFiltradas(filtros);
+        await partidasService.eliminar(partidaAEliminar.id);
+        setPartidaAEliminar(null);
+
+        // Comprobar si los filtros están vacíos
+        if (!filtros.idJuego && !filtros.hasta) {
+            // Sin filtros: cargar las partidas más recientes
+            const data = await partidasService.obtenerUltimas();
+            setPartidas(data);
+        } else {
+            // Con filtros: buscar partidas filtradas
+            buscarFiltradas(filtros);
+        }
+    };
+
+    const limpiarFiltros = async () => {
+        setFiltros({ idJuego: "", hasta: "" });
+        const data = await partidasService.obtenerUltimas();
+        setPartidas(data);
     };
 
     return (
@@ -49,17 +64,17 @@ const Partidas = () => {
                     Nueva Partida
                 </button>
             </div>
-            <FiltroPartidas juegos={juegos} onBuscar={buscarFiltradas} />
+            <FiltroPartidas juegos={juegos} onBuscar={buscarFiltradas} onLimpiar={limpiarFiltros} />
             <PartidasLista
                 partidas={partidas}
                 onEditar={onEditar}
                 onEliminar={onEliminar}
             />
-            {confirmarEliminacion && (
+            {partidaAEliminar && (
                 <ConfirmarDialogo
-                    mensaje={`¿Seguro que desea eliminar la partida de "${confirmarEliminacion.juego?.nombre}" del día ${confirmarEliminacion.fecha}?`}
+                    mensaje={`¿Seguro que desea eliminar la partida de "${partidaAEliminar.juego?.nombre}" del día ${partidaAEliminar.fecha}?`}
                     onConfirmar={confirmarEliminar}
-                    onCancelar={() => setConfirmarEliminacion(null)}
+                    onCancelar={() => setPartidaAEliminar(null)}
                 />
             )}
         </main>

@@ -6,12 +6,13 @@ import partidasService from "../services/partidas.service";
 
 const PartidaFormulario = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
+
     const [juegos, setJuegos] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm();
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         // Cargar juegos y, si edita, cargar partida
         const fetchData = async () => {

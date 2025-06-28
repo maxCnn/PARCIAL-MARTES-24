@@ -1,6 +1,25 @@
 //src/components/JuegoPopup.jsx
 import React, { useRef, useEffect } from "react";
-import defaultCover from "../assets/default-cover.jpg";
+import imagenDefaultCarcassonne from "../assets/Carcassonne.jpg";
+import imagenDefaultTEG from "../assets/TEG.jpg";
+import imageDefaultUno from "../assets/Uno.jpg";
+import imageDefaultDixit from "../assets/Dixit.jpg";
+import imageDefaultCatan from "../assets/Catan.jpg";
+
+const getImageDefault = (nombre) => {
+    switch (nombre) {
+        case "Carcassonne":
+            return imagenDefaultCarcassonne;
+        case "TEG":
+            return imagenDefaultTEG;
+        case "Uno":
+            return imageDefaultUno;
+        case "Dixit":
+            return imageDefaultDixit;
+        case "Catan":
+            return imageDefaultCatan;
+    }
+};
 
 // Popup modal Bootstrap simple
 const JuegoPopup = ({ juego, onClose }) => {
@@ -24,15 +43,15 @@ const JuegoPopup = ({ juego, onClose }) => {
                     </div>
                     <div className="modal-body text-center">
                         <img
-                            src={juego.imagen || defaultCover}
+                            src={juego.imagen || getImageDefault(juego.nombre)}
                             alt={juego.nombre}
                             className="img-fluid mb-3"
-                            onError={e => { e.target.onerror = null; e.target.src = defaultCover; }}
+                            onError={e => { e.target.onerror = null; e.target.src = getImageDefault(juego.nombre); }}
                             style={{ maxHeight: 200 }}
                         />
                         <div className="mb-2"><strong>Descripción:</strong> {juego.descripcion || "Sin descripción."}</div>
-                        <div className="mb-2"><strong>Duración:</strong> {juego.duracion ? `${juego.duracion} min.` : "No informada."}</div>
-                        <div className="mb-2"><strong>Edad mínima:</strong> {juego.edadMinima || "No informada."}</div>
+                        <div className="mb-2"><strong>Duración:</strong> {juego.duracionMinutos ? `${juego.duracionMinutos} min.` : "No informada."}</div>
+                        <div className="mb-2"><strong>Edad mínima:</strong> {juego.edadRecomendada || "No informada."}</div>
                     </div>
                 </div>
             </div>

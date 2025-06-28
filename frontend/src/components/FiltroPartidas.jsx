@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const FiltroPartidas = ({ juegos, onBuscar }) => {
+const FiltroPartidas = ({ juegos, onBuscar, onLimpiar }) => {
     const [idJuego, setIdJuego] = useState("");
     const [hasta, setHasta] = useState("");
 
@@ -12,7 +12,7 @@ const FiltroPartidas = ({ juegos, onBuscar }) => {
     const limpiar = () => {
         setIdJuego("");
         setHasta("");
-        onBuscar({});
+        onLimpiar();
     };
 
     return (
